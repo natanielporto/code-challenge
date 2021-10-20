@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
 import beerCollection from './beerCollection';
+import checkTemperatures from './helpers/checkTemperature';
 
 function App() {
   const [beers, setBeers] = useState({});
   
   const tableHeaders = [ 'Product', 'Temperature', 'Status'];
 
-  const checkTemperatures = (temperature, minimumTemperature) => {
-    if (temperature < minimumTemperature) return <span>Too cold</span>;
-    if (temperature > minimumTemperature) return <span>Too hot</span>;
-    return <span>All good</span>;
-  }
+  const averageTDWidth = 150;
   
   const request = () =>
     beerCollection.forEach((product) => {
@@ -48,9 +45,9 @@ function App() {
         <tbody>
           {Object.keys(beers).map((itemKey) => (
             <tr key={beers[itemKey].id}>
-              <td width={150}>{beers[itemKey].name}</td>
-              <td width={150}>{beers[itemKey].temperature}</td>
-              <td width={150}>
+              <td width={averageTDWidth}>{beers[itemKey].name}</td>
+              <td width={averageTDWidth}>{beers[itemKey].temperature}</td>
+              <td width={averageTDWidth}>
                 {checkTemperatures(beers[itemKey].temperature, beers[itemKey].minimumTemperature)}
               </td>
             </tr>
