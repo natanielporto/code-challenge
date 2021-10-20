@@ -3,23 +3,23 @@ import beerCollection from './beerCollection';
 
 function App() {
   const [items, setItems] = useState({});
-
+  
+  const request = () =>
+    beerCollection.forEach((product) => {
+      fetch(`http://localhost:8081/temperature/${product.id}`)
+        .then((response) => response.json())
+        .then((response) =>
+          setItems((prevItems) => ({
+            ...prevItems,
+            [product.id]: {
+              ...product,
+              ...response,
+            },
+          }))
+        );
+    });
+  
   useEffect(() => {
-    const request = () =>
-      beerCollection.forEach((product) => {
-        fetch(`http://localhost:8081/temperature/${product.id}`)
-          .then((response) => response.json())
-          .then((response) =>
-            setItems((prevItems) => ({
-              ...prevItems,
-              [product.id]: {
-                ...product,
-                ...response,
-              },
-            }))
-          );
-      });
-
     setInterval(request, 5000);
 
     request();
