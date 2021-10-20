@@ -32,7 +32,12 @@ function App() {
 
   return (
     <div className="App">
+      <header>
+        <h1>SensorTech</h1>
+      </header>
+
       <h2>Beers</h2>
+      
       <table>
         <thead>
           <tr>
