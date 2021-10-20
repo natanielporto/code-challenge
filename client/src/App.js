@@ -2,17 +2,23 @@ import { useEffect, useState } from 'react';
 import beerCollection from './beerCollection';
 
 function App() {
-  const [items, setItems] = useState({});
+  const [beers, setBeers] = useState({});
   
   const tableHeaders = [ 'Product', 'Temperature', 'Status'];
 
+  const checkTemperatures = (temperature, minimumTemperature) => {
+    if (temperature < minimumTemperature) return <span>Too cold</span>;
+    if (temperature > minimumTemperature) return <span>Too hot</span>;
+    return <span>All good</span>;
+  }
+  
   const request = () =>
     beerCollection.forEach((product) => {
       fetch(`http://localhost:8081/temperature/${product.id}`)
         .then((response) => response.json())
         .then((response) =>
-          setItems((prevItems) => ({
-            ...prevItems,
+          setBeers((prevBeers) => ({
+            ...prevBeers,
             [product.id]: {
               ...product,
               ...response,
@@ -27,6 +33,7 @@ function App() {
     request();
   }, []);
 
+  console.log(beers)
   return (
     <div className="App">
       <h2>Beers</h2>
@@ -39,19 +46,12 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {Object.keys(items).map((itemKey) => (
-            <tr key={items[itemKey].id}>
-              <td width={150}>{items[itemKey].name}</td>
-              <td width={150}>{items[itemKey].temperature}</td>
+          {Object.keys(beers).map((itemKey) => (
+            <tr key={beers[itemKey].id}>
+              <td width={150}>{beers[itemKey].name}</td>
+              <td width={150}>{beers[itemKey].temperature}</td>
               <td width={150}>
-                {items[itemKey].temperature <
-                  items[itemKey].minimumTemperature && <span>too low</span>}
-                {items[itemKey].temperature >
-                  items[itemKey].maximumTemperature && <span>too high</span>}
-                {items[itemKey].temperature <=
-                  items[itemKey].maximumTemperature &&
-                  items[itemKey].temperature >=
-                    items[itemKey].minimumTemperature && <span>all good</span>}
+                {checkTemperatures(beers[itemKey].temperature, beers[itemKey].minimumTemperature)}
               </td>
             </tr>
           ))}
