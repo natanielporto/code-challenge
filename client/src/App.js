@@ -4,6 +4,8 @@ import beerCollection from './beerCollection';
 function App() {
   const [items, setItems] = useState({});
   
+  const tableHeaders = [ 'Product', 'Temperature', 'Status'];
+
   const request = () =>
     beerCollection.forEach((product) => {
       fetch(`http://localhost:8081/temperature/${product.id}`)
@@ -31,9 +33,9 @@ function App() {
       <table>
         <thead>
           <tr>
-            <th align="left">Product</th>
-            <th align="left">Temperature</th>
-            <th align="left">Status</th>
+            {tableHeaders.map((header) => (
+              <th key={header} align="left">{header}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
