@@ -30,7 +30,6 @@ function App() {
     request();
   }, []);
 
-  console.log(beers)
   return (
     <div className="App">
       <h2>Beers</h2>
