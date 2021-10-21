@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import beerCollection from './beerCollection';
-import checkTemperatures from './helpers/checkTemperature';
+import Header from './components/Header';
+import Table from './components/Table';
+import beerCollection from './data/beerCollection';
 
 function App() {
   const [beers, setBeers] = useState({});
   
-  const tableHeaders = [ 'Product', 'Temperature', 'Status'];
+  const tableHeaders = [ 'Product', 'Temperature', 'Status' ];
 
-  const averageTDWidth = 150;
-  
   const request = () =>
     beerCollection.forEach((product) => {
       fetch(`http://localhost:8081/temperature/${product.id}`)
@@ -32,32 +31,12 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <h1>SensorTech</h1>
-      </header>
-
-      <h2>Beers</h2>
-      
-      <table>
-        <thead>
-          <tr>
-            {tableHeaders.map((header) => (
-              <th key={header} align="left">{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {Object.keys(beers).map((itemKey) => (
-            <tr key={beers[itemKey].id}>
-              <td width={averageTDWidth}>{beers[itemKey].name}</td>
-              <td width={averageTDWidth}>{beers[itemKey].temperature}</td>
-              <td width={averageTDWidth}>
-                {checkTemperatures(beers[itemKey].temperature, beers[itemKey].minimumTemperature)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Header />
+      <Table 
+        tableName="Beers" 
+        tableHeaders={tableHeaders} 
+        beers={beers} 
+        averageTDWidth={150}/>
     </div>
   );
 }
