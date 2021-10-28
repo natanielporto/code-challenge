@@ -24,8 +24,3 @@ it("renders the right table name a second time", () => {
   expect(tableName).toHaveTextContent("differentTestTableName");
 });
 
-it("renders the right amount of headers", async () => {
-  const { getByText } = render(<Table tableName="testTableName" tableHeaders={["1", "2", "3"]} beers={["1", "2", "3"]} averageTDWidth={150}/>);
-  const numberOfHeaders = getByText("testTableName");
-  console.log(numberOfHeaders.querySelector('td'))
-});

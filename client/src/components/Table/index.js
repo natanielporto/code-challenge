@@ -12,13 +12,13 @@ const Table = ({
       <thead>
         <tr>
           {tableHeaders.map((header) => (
-            <th key={header} align="left">{header}</th>
+            <th key={Math.floor(Math.random() * 10000) + 1} align="left">{header}</th>
           ))}
         </tr>
       </thead>
       <tbody>
         {Object.keys(beers).map((itemKey) => (
-          <tr key={beers[itemKey].id} className={`test-id-${beers[itemKey].id}`}>
+          <tr key={Number(beers[itemKey].id) + Math.floor(Math.random() * 10000) + 1} className={`test-id-${beers[itemKey].id}`}>
             <td width={averageTDWidth}>{beers[itemKey].name}</td>
             <td width={averageTDWidth}>{beers[itemKey].temperature}</td>
             <td width={averageTDWidth}>
